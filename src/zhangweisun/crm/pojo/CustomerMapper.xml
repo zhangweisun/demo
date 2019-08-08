@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="zhangweisun.crm.pojo.Customer">
+		
+		
+	<!-- 查询符合查询条件的数据总条数 -->
+	<select id="customerCountQueryByVo" parameterType="QueryVo" resultType="Integer">
+		SELECT count(1) FROM customer
+		<where>
+			<if test="custName !=null and custName !=''">
+				and cust_name like "%"#{custName}"%"
+			</if>
+			<if test="custSource !=null and custSource !=''">
+				and cust_source =#{custSource}
+			</if>
+			<if test="custIndustry !=null and custIndustry !=''">
+				and cust_industry=#{custIndustry}
+			</if>
+			<if test="custLevel !=null and custLevel !=''">
+				and cust_level=#{custLevel}
+			</if>
+		</where>
+	</select>
+		
+
+	<!-- 查询结果集 -->
+	<select id="selectCustomerQueryByVo" parameterType="QueryVo" resultType="Customer">
+		SELECT * FROM customer
+		<where>
+			<if test="custName !=null and custName !=''">
+				and cust_name like "%"#{custName}"%"
+			</if>
+			<if test="custSource !=null and custSource !=''">
+				and cust_source =#{custSource}
+			</if>
+			<if test="custIndustry !=null and custIndustry !=''">
+				and cust_industry=#{custIndustry}
+			</if>
+			<if test="custLevel !=null and custLevel !=''">
+				and cust_level=#{custLevel}
+			</if>
+		</where>
+		limit #{startRow},#{size}
+	</select>
+	
+	<!-- 根据id查询customer -->
+	<select id="selectCustomerById" parameterType="Integer" resultType="Customer">
+		SELECT * FROM customer
+		<where>
+			cust_id = #{id}
+		</where>
+	</select>
+	
+	<!-- 根据id修改customer -->
+	<update id="updateCustomerById" parameterType="Customer">
+		update customer
+		<trim suffixOverrides=",">
+		<set>
+			<if test="cust_name !=null">
+				cust_name=#{cust_name},
+			</if>
+			<if test="cust_source !=null">
+				cust_source=#{cust_source},
+			</if>
+			<if test="cust_industry !=null">
+				cust_industry=#{cust_industry},
+			</if>
+			<if test="cust_level !=null">
+				cust_level=#{cust_level},
+			</if>
+			<if test="cust_linkman !=null">
+				cust_linkman=#{cust_linkman},
+			</if>
+			<if test="cust_phone !=null">
+				cust_phone=#{cust_phone},
+			</if>
+			<if test="cust_mobile !=null">
+				cust_mobile=#{cust_mobile},
+			</if>
+			<if test="cust_zipcode !=null">
+				cust_zipcode=#{cust_zipcode},
+			</if>
+			<if test="cust_address !=null">
+				cust_address=#{cust_address},
+			</if>
+		</set>
+		</trim>
+		<where>
+			cust_id = #{cust_id}
+		</where>	
+	</update>
+	
+	<!-- 根据id 删除customer -->
+	<delete id="deleteCustomerById" parameterType="Integer">
+		delete from customer
+		<where>
+			cust_id = #{id}
+		</where>
+	</delete>
+	
+</mapper>
